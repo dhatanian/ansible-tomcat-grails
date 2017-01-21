@@ -19,6 +19,8 @@ Replace `192.168.0.33` with the IP of the machine on which you want to install t
 
 Note the `,` comma which is necessary for Ansible to know this is an IP address as opposed to an inventory file.
 
+The script will ask for the SSH username and password of the VM you want to run the playbook on.
+
 You can also configure an inventory file if you prefer.
 
 NB: The first execution can take time, especially the Gradle build as it needs to download all the dependencies.
