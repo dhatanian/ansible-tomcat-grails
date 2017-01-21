@@ -1,0 +1,15 @@
+---
+java_home: /usr/lib/jvm/java-8-openjdk-amd64/
+
+git:
+  repo_url: https://github.com/secretescapes/grails-petclinic.git
+  dest_folder: /tmp/app-repo
+  default_version: master
+
+petclinic:
+  path: petclinic
+  war_file: target/petclinic.war
+  environment: test
+
+tomcat:
+  webapps_folder: /var/lib/tomcat7/webapps

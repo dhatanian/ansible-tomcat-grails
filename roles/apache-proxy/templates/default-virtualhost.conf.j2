@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+	ProxyPreserveHost On
+	ProxyPass /{{proxied_path | default('')}} http://0.0.0.0:8080/{{proxied_path | default('')}}
+	ProxyPass / http://0.0.0.0:8080/{{proxied_path | default('')}}
+	ProxyPassReverse / http://0.0.0.0:8080/{{proxied_path | default('')}}
+</VirtualHost>

@@ -1,0 +1,4 @@
+apt:
+  dependencies:
+    - openjdk-8-jre-headless
+    - tomcat7

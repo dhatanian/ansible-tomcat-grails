@@ -1,0 +1,40 @@
+---
+- hosts: all
+  roles:
+    - {role: tomcat}
+    - {role: apache-proxy, proxied_path: petclinic/}
+
+  vars_prompt:
+    - name: 'ansible_ssh_user'
+      prompt: 'Enter username'
+      private: no
+      default: 'devops'
+    - name: 'ansible_ssh_pass'
+      prompt: 'Enter password'
+      private: yes
+
+  vars:
+    - ansible_connection: paramiko
+    - ansible_become_pass: '{{ansible_ssh_pass}}'
+
+  tasks:
+    - name: Load variables
+      include_vars: 'vars/default.yml'
+
+    - name: Clone application repository
+      git:
+        repo: '{{git.repo_url}}'
+        dest: '{{git.dest_folder}}'
+        version: '{{version | default(git.default_version)}}'
+        accept_hostkey: yes
+
+    - name: Build war file
+      shell: './grailsw {{petclinic.environment}} war -Dgrails.project.war.file={{petclinic.war_file}}'
+      args:
+        chdir: '{{git.dest_folder}}'
+      environment:
+        JAVA_HOME: '{{java_home}}'
+
+    - name: Copy war file to Tomcat
+      command: mv {{git.dest_folder}}/{{petclinic.war_file}} {{tomcat.webapps_folder}}/
+      become: yes

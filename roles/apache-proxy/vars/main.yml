@@ -1,0 +1,7 @@
+apt:
+  dependencies:
+    - apache2
+
+modules:
+  - proxy
+  - proxy_http

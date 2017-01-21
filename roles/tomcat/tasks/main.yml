@@ -1,0 +1,21 @@
+- name: Install Tomcat 7 and OpenJDK 8
+  apt:
+    pkg: '{{item}}'
+    state: 'present'
+  with_items: '{{apt.dependencies}}'
+  become: yes
+
+- name: Set Tomcat startup settings
+  copy:
+    src: 'files/setenv.sh'
+    dest: '/usr/share/tomcat7/bin/setenv.sh'
+    mode: 'u=rwx,g=rwx,o=r'
+  notify:
+    - Restart Tomcat7
+  become: yes
+
+- name: Ensure Tomcat is started
+  service:
+    name: 'tomcat7'
+    state: 'started'
+  become: yes
